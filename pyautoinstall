@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# 检查系统是否已经安装了Python3
+if ! [ -x "$(command -v python3)" ]; then
+  echo 'Python3 is not installed. Installing Python3...'
+  # 根据不同的包管理器安装Python3
+  if [ -x "$(command -v apt)" ]; then
+    sudo apt update
+    sudo apt install -y python3
+  elif [ -x "$(command -v yum)" ]; then
+    sudo yum install -y python3
+  elif [ -x "$(command -v dnf)" ]; then
+    sudo dnf install -y python3
+  else
+    echo 'Error: Unsupported package manager.' >&2
+    exit 1
+  fi
+else
+  echo 'Python3 is already installed.'
+fi
+
+# 检查系统是否已经安装了pip3
+if ! [ -x "$(command -v pip3)" ]; then
+  echo 'pip3 is not installed. Installing pip3...'
+  # 根据不同的包管理器安装pip3
+  if [ -x "$(command -v apt)" ]; then
+    sudo apt install -y python3-pip
+  elif [ -x "$(command -v yum)" ]; then
+    sudo yum install -y python3-pip
+  elif [ -x "$(command -v dnf)" ]; then
+    sudo dnf install -y python3-pip
+  else
+    echo 'Error: Unsupported package manager.' >&2
+    exit 1
+  fi
+else
+  echo 'pip3 is already installed.'
+fi
+
+# 打印已安装的版本
+python3 --version
+pip3 --version
